@@ -1,5 +1,5 @@
 import ics, { createEvents, DateArray } from 'ics';
-import {TodoItem, Timestamp, recFindTimestamp} from "./entities";
+import {Page, TodoItem, Timestamp, recFindTimestamp} from "./entities";
 
 export const convertTimestampToDateArray = (timestamp: Timestamp): DateArray => {
   if (timestamp.time) {
@@ -19,7 +19,7 @@ export const convertTimestampToDateArray = (timestamp: Timestamp): DateArray => 
   }
 };
  
-export const convertTodoToEvent = (item: TodoItem): ics.EventAttributes[] => {
+export const convertTodoToEvent = ([page, item]: [Page, TodoItem]): ics.EventAttributes[] => {
   // Is this a scheduled event or a deadline event?
   // An event can have a scheduled time and a deadline. We should return both events.
 
@@ -47,7 +47,7 @@ export const convertTodoToEvent = (item: TodoItem): ics.EventAttributes[] => {
     return {
       ...event,
       startInputType: "local",
-      title: item.content.split("\n")[0],
+      title: `${item.content.split("\n")[0]} - ${page.name}`,
       ...(hasTime ? { duration: { minutes: 30 } } : { end: event.start })
     }
   });

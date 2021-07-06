@@ -1,3 +1,13 @@
+export interface Page {
+  "journal?": boolean;
+  "journal-day": number;
+  name: string;
+  "original-name": string;
+  properties?: {
+    title?: string;
+  };
+};
+
 export interface TodoItem {
   body: AnyBody[];
   "repeated?": boolean;
@@ -81,3 +91,53 @@ export const recFindTimestamp = (bodies: AnyBody[], label: TimestampType): Times
     }
   }
 }
+
+const scheduledQuery = `
+[:find (pull ?p [*]) (pull ?h [*])
+ :where
+ [?h :block/scheduled ?scheduled]
+ [?h :block/page ?p]
+ [?p :block/name ?name]]
+`;
+
+const deadlineQuery = `
+[:find (pull ?p [*]) (pull ?h [*])
+ :where
+ [?h :block/deadline ?deadline]
+ [?h :block/page ?p]
+ [?p :block/name ?name]]
+`;
+
+export const fetchTodoItems = async (runQuery: (query: any) => Promise<any>): Promise<[Page, TodoItem][]> => {
+  return Promise.all([
+    runQuery(deadlineQuery),
+    runQuery(scheduledQuery)
+  ]).then(allResults => {
+
+    // if any results are null
+    if (allResults.some((result) => result == null)) {
+      // retry in a second
+      return new Promise((res, rej) => {
+        setTimeout(() => {
+          fetchTodoItems(runQuery)
+            .then(results => res(results))
+            .catch(err => rej(err));
+        }, 1000);
+      });
+    }
+
+    // The results should be tuples of pages and blocks (as defined by the two :find clauses).
+    let results: [Page, TodoItem][] = allResults[0].concat(allResults[1]);
+
+    // Dedupe the results using uuid.
+    let dedupedTodoItems = {};
+    results.map(([page, item]) => {
+      let key = item.uuid.Xd;
+      if (dedupedTodoItems[key] == undefined) {
+        dedupedTodoItems[key] = [page, item];
+        console.log(item);
+      }
+    })
+    return Object.values(dedupedTodoItems);
+  });
+};
