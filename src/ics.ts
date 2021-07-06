@@ -1,3 +1,4 @@
+import fs from "fs";
 import ics, { createEvents, DateArray } from 'ics';
 import {Page, TodoItem, Timestamp, recFindTimestamp} from "./entities";
 
@@ -59,6 +60,15 @@ export const dumpToIcs = (events: ics.EventAttributes[], path: string) => {
     throw new Error(`Unable to dump events to ICS: ${ret.error}`);
   }
 
-  // cannot write a file.
-  console.log(ret.value);
+  const icsValue = ret.value;
+
+  try {
+    fs.writeFile(path, icsValue, () => {
+      console.log("Successfully wrote file");
+    })
+  } catch (e) {
+    console.error(e)
+  }
+
+  // console.log(ret.value);
 }
