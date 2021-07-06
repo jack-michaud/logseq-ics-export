@@ -1,0 +1,27 @@
+{
+  "name": "logseq-ics-export",
+  "version": "0.1.0",
+  "description": "ICS export for scheduled and deadlined items in Logseq",
+  "main": "dist/index.html",
+  "repository": "https://github.com/jack-michaud/logseq-ics-export",
+  "author": "Jack Michaud <jack@lomz.me>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "dev": "parcel ./index.html --public-url ./ --dist-dir=./dist",
+    "build": "parcel build --public-url . --no-source-maps index.html"
+  },
+  "logseq": {
+    "id": "_omgdahdee"
+  },
+  "dependencies": {
+    "@logseq/libs": "^0.0.1-alpha.22",
+    "ics": "^2.29.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "babel-jest": "^27.0.6",
+    "jest": "^27.0.6",
+    "parcel": "^2.0.0-beta.2"
+  }
+}
