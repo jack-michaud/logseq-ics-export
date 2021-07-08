@@ -11,7 +11,7 @@ Exports an iCal compatible `.ics` file from Logseq TODO entries.
 
 ### TODO
 - [ ] Generates ICS into a file
-- [ ] Looks at all TODO entries and creates reminders for scheduled times and event at the deadline time
+  - Blocked on [Plugin Storage API](https://discuss.logseq.com/t/writing-to-a-file-for-ics-export/1453)
 - [ ] Creates recurring events using [RRULEs](https://www.textmagic.com/free-tools/rrule-generator)
 - [ ] UI Panel for configuration
 - Configuration options
