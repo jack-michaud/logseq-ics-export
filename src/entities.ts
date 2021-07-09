@@ -18,7 +18,7 @@ export interface TodoItem {
   // ISO Date
   scheduled?: number;
   uuid: {
-    Xd: string;
+    uuid: string;
   };
 };
 
@@ -132,7 +132,7 @@ export const fetchTodoItems = async (runQuery: (query: any) => Promise<any>): Pr
     // Dedupe the results using uuid.
     let dedupedTodoItems = {};
     results.map(([page, item]) => {
-      let key = item.uuid.Xd;
+      let key = item.uuid.uuid;
       if (dedupedTodoItems[key] == undefined) {
         dedupedTodoItems[key] = [page, item];
         console.log(item);
