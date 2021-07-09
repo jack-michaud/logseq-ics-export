@@ -7,15 +7,16 @@ Exports an iCal compatible `.ics` file from Logseq TODO entries.
   - Blocks with a time will receive a default duration of 30 minutes
   - Blocks without a time will receive a default end date of the same day
 - Adds page context to calendar entry: `<block content> - <page name>`
-- Generates an ICS into console.log
+- Generates a `.ics` file into `~/.logseq/storages/lomz-ics-export/calendar.ics`
 
 ### TODO
-- [ ] Generates ICS into a file
-  - Blocked on [Plugin Storage API](https://discuss.logseq.com/t/writing-to-a-file-for-ics-export/1453)
+- [x] Generates ICS into a file
+  - Blocked on [Plugin Storage API](https://github.com/logseq/logseq/pull/2399)
 - [ ] Creates recurring events using [RRULEs](https://www.textmagic.com/free-tools/rrule-generator)
 - [ ] UI Panel for configuration
 - Configuration options
   - [ ] Configure TODO filter
+  - [ ] Configure separate calendars
 
 ### Resources
 - [ics](https://www.npmjs.com/package/ics)
