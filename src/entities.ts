@@ -135,7 +135,6 @@ export const fetchTodoItems = async (runQuery: (query: any) => Promise<any>): Pr
       let key = item.uuid.uuid;
       if (dedupedTodoItems[key] == undefined) {
         dedupedTodoItems[key] = [page, item];
-        console.log(item);
       }
     })
     return Object.values(dedupedTodoItems);
