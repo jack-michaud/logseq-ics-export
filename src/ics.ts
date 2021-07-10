@@ -1,6 +1,10 @@
 import ics, { createEvents, DateArray } from 'ics';
 import {Page, TodoItem, Timestamp, recFindTimestamp} from "./entities";
 
+import '@logseq/libs';
+import { ILSPluginUser } from '@logseq/libs/dist/LSPlugin';
+
+
 export const convertTimestampToDateArray = (timestamp: Timestamp): DateArray => {
   if (timestamp.time) {
     return [
@@ -53,12 +57,16 @@ export const convertTodoToEvent = ([page, item]: [Page, TodoItem]): ics.EventAtt
   });
 };
 
-export const dumpToIcs = (events: ics.EventAttributes[], path: string) => {
+export const dumpToIcs = async (logseq: ILSPluginUser, events: ics.EventAttributes[]) => {
   const ret = createEvents(events);
   if (ret.error) {
     throw new Error(`Unable to dump events to ICS: ${ret.error}`);
   }
 
-  // cannot write a file.
-  console.log(ret.value);
+  if (ret.value) {
+    await logseq.FileStorage.setItem("calendar.ics", ret.value);
+    console.log(`Wrote {events.length} events to calendar.ics`);
+  } else {
+    console.warn("Did not write null ICS file to disk");
+  }
 }

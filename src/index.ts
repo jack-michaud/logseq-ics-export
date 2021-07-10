@@ -14,7 +14,7 @@ const syncCalendar = () => {
     const events = items.reduce((acc, item) => {
       return acc.concat(convertTodoToEvent(item))
     }, [])
-    dumpToIcs(events, "/tmp/test.ics")
+    return dumpToIcs(logseq, events)
   });
 };
 
